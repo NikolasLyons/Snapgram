@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Textarea } from "../ui/textarea"
+// import { Textarea } from "../ui/textarea"
 import FileUploader from "../shared/FileUploader"
 import { Input } from "../ui/input"
 
@@ -22,7 +22,7 @@ const formSchema = z.object({
   }),
 })
 
-const PostForm = () => {
+const PostForm = ({ post }) => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,7 +48,9 @@ const PostForm = () => {
             <FormItem>
               <FormLabel className="shad-form_label">Caption</FormLabel>
               <FormControl>
-                <Textarea className="shad-textarea custom-scrollbar" {...field} />
+                <Input type="text" className="shad-input" />
+                {/* FIXME: figure out how to get the textarea not to messed up */}
+                {/* <Textarea className="shad-textarea custom-scrollbar" {...field} /> */}
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
@@ -61,7 +63,10 @@ const PostForm = () => {
             <FormItem>
               <FormLabel className="shad-form_label">Add Photos</FormLabel>
               <FormControl>
-                <FileUploader />
+                <FileUploader
+                  fieldChange={field.onChange}
+                  mediaUrl={post?.mediaUrl}
+                />
               </FormControl>
               <FormMessage className="shad-form_message " />
             </FormItem>
